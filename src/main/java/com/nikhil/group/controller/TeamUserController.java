@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -41,5 +42,26 @@ public class TeamUserController {
                 .build();
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<TeamUserResponse>> getUsersByTeam(
+            @PathVariable UUID teamId
+    ) {
+        List<TeamUser> teamUsers = teamUserService.getUsersByTeam(teamId);
+
+        List<TeamUserResponse> response = teamUsers.stream()
+                .map(teamUser -> TeamUserResponse.builder()
+                        .id(teamUser.getId())
+                        .teamId(teamUser.getTeam().getId())
+                        .teamName(teamUser.getTeam().getName())
+                        .userId(teamUser.getUser().getId())
+                        .userName(teamUser.getUser().getName())
+                        .userEmail(teamUser.getUser().getEmail())
+                        .role(teamUser.getRole())
+                        .build())
+                .toList();
+
+        return ResponseEntity.ok(response);
     }
 }
