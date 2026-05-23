@@ -44,4 +44,13 @@ public class TeamUserService {
 
         return teamUserRepository.findByTeamId(teamId);
     }
+
+    public TeamUser updateTeamUserRole(UUID teamId, UUID userId, TeamRole role){
+        TeamUser teamUser = teamUserRepository.findByTeamIdAndUserId(teamId, userId)
+                .orElseThrow(()-> new RuntimeException("TeamUser not found"));
+
+        teamUser.setRole(role);
+
+        return teamUserRepository.save(teamUser);
+    }
 }
