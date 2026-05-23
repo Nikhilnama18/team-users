@@ -1,6 +1,7 @@
 package com.nikhil.group.controller;
 
 import com.nikhil.group.dto.request.CreateUserRequest;
+import com.nikhil.group.dto.request.UpdateUserRequest;
 import com.nikhil.group.dto.response.UserResponse;
 import com.nikhil.group.entity.User;
 import com.nikhil.group.service.UserService;
@@ -34,6 +35,21 @@ public class UserController {
     @GetMapping("/{userId}")
     public ResponseEntity<UserResponse> getUserById(@PathVariable UUID userId){
         User user = userService.getUserById(userId);
+
+        UserResponse response = UserResponse.builder()
+                .id(user.getId())
+                .name(user.getName())
+                .email(user.getEmail())
+                .build();
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping("/{userId}")
+    public ResponseEntity<UserResponse> updateUserName(
+            @PathVariable UUID userId,@Valid @RequestBody UpdateUserRequest request
+    ){
+        User user = userService.updateUser(userId, request.getName(), request.getEmail());
 
         UserResponse response = UserResponse.builder()
                 .id(user.getId())
