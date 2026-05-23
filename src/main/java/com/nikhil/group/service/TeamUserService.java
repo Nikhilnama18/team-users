@@ -10,6 +10,7 @@ import com.nikhil.group.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -33,5 +34,14 @@ public class TeamUserService {
                 .build();
 
         return teamUserRepository.save(teamUser);
+    }
+
+    public List<TeamUser> getUsersByTeam(UUID teamId){
+
+        if (!teamRepository.existsById(teamId)) {
+            throw new RuntimeException("Team not found");
+        }
+
+        return teamUserRepository.findByTeamId(teamId);
     }
 }

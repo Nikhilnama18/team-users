@@ -8,10 +8,9 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/team")
@@ -29,5 +28,17 @@ public class TeamController {
                 .build();
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @GetMapping("/{teamId}")
+    public ResponseEntity<TeamResponse> getTeamById(@PathVariable UUID teamId) {
+        Team team = teamService.getTeamById(teamId);
+
+        TeamResponse response = TeamResponse.builder()
+                .id(team.getId())
+                .name(team.getName())
+                .build();
+
+        return ResponseEntity.ok(response);
     }
 }
