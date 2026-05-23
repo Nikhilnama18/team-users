@@ -16,6 +16,9 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 public class TeamUser {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
