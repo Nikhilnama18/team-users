@@ -21,4 +21,19 @@ public class UserService {
     public User getUserById(UUID userId){
         return userRepository.findById(userId).orElseThrow(()-> new RuntimeException("User not found"));
     }
+
+    public User updateUser(UUID userId, String name, String email){
+        User user = getUserById(userId);
+
+        if (name != null && !name.isBlank()) {
+            user.setName(name);
+        }
+
+        if (email != null && !email.isBlank()) {
+            user.setEmail(email);
+        }
+
+        return userRepository.save(user);
+
+    }
 }
