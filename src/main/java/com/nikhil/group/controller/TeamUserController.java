@@ -1,6 +1,7 @@
 package com.nikhil.group.controller;
 
 import com.nikhil.group.dto.request.AddUserToTeamRequest;
+import com.nikhil.group.dto.request.UpdateTeamUserRoleRequest;
 import com.nikhil.group.dto.response.TeamUserResponse;
 import com.nikhil.group.entity.TeamUser;
 import com.nikhil.group.service.TeamUserService;
@@ -61,6 +62,27 @@ public class TeamUserController {
                         .role(teamUser.getRole())
                         .build())
                 .toList();
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping("/users/{userId}")
+    public ResponseEntity<TeamUserResponse> updateTeamUserRole(
+            @PathVariable UUID teamId,
+            @PathVariable UUID userId,
+            @Valid @RequestBody UpdateTeamUserRoleRequest request
+            ){
+        TeamUser teamUser = teamUserService.updateTeamUserRole(teamId, userId, request.getRole());
+
+        TeamUserResponse response = TeamUserResponse.builder()
+                .id(teamUser.getId())
+                .teamId(teamUser.getTeam().getId())
+                .teamName(teamUser.getTeam().getName())
+                .userId(teamUser.getUser().getId())
+                .userName(teamUser.getUser().getName())
+                .userEmail(teamUser.getUser().getEmail())
+                .role(teamUser.getRole())
+                .build();
 
         return ResponseEntity.ok(response);
     }

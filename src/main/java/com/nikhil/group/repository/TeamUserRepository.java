@@ -4,9 +4,11 @@ import com.nikhil.group.entity.TeamUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface TeamUserRepository extends JpaRepository<TeamUser, UUID> {
 
     List<TeamUser> findByTeamId(UUID teamId);
+    Optional<TeamUser> findByTeamIdAndUserId(UUID teamId, UUID userId);
 }
