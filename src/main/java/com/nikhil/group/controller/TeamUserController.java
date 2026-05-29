@@ -66,7 +66,7 @@ public class TeamUserController {
         return ResponseEntity.ok(response);
     }
 
-    @PatchMapping("/users/{userId}")
+    @PatchMapping("/{userId}")
     public ResponseEntity<TeamUserResponse> updateTeamUserRole(
             @PathVariable UUID teamId,
             @PathVariable UUID userId,
